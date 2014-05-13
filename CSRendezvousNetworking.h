@@ -19,6 +19,6 @@ typedef NS_ENUM(NSInteger, NetworkRequestType) {
     DELETE
 };
 
-+ (NSDictionary *)expectUserREST:(NSDictionary *)parameters type:(NetworkRequestType)type path:(NSString *)path;
++ (NSDictionary *)expectUserRequest:(NSDictionary *)parameters type:(NetworkRequestType)type path:(NSString *)path;
 
 @end
