@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Globals : NSObject
+@interface CSRendezvousNetworking : NSObject
 
 #define APIBaseURL "http://69.91.217.124"
 
@@ -19,6 +19,6 @@ typedef NS_ENUM(NSInteger, NetworkRequestType) {
     DELETE
 };
 
-+ (NSDictionary *)expectUserREST:(NSDictionary *)parameters type:NetworkRequestType;
++ (NSDictionary *)expectUserREST:(NSDictionary *)parameters type:(NetworkRequestType)type path:(NSString *)path;
 
 @end
