@@ -33,7 +33,19 @@
     }
 }
 
-+ (NSDictionary *)expectUserRequest:(NSDictionary *)parameters type:(NetworkRequestType)type path:(NSString *)path {
++ (NSDictionary *)expectUserArgumentRequest:(NSString *)argument type:(NetworkRequestType)type path:(NSString *)path {
+    return [self expectUserRequest:nil type:type path:path argument:argument];
+}
+
++ (NSDictionary *)expectUserParameterRequest:(NSDictionary *)parameters type:(NetworkRequestType)type path:(NSString *)path {
+    return [self expectUserRequest:parameters type:type path:path argument:nil];
+}
+
++ (void)expectUserRequestError:(AFHTTPRequestOperation *)operation error:(NSError *)error {
+    NSLog(@"Error: %ld", (long)operation.response.statusCode);
+}
+
++ (NSDictionary *)expectUserRequest:(NSDictionary *)parameters type:(NetworkRequestType)type path:(NSString *)path argument:(NSString *)argument {
     NSDictionary *result = [NSDictionary new];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -43,7 +55,7 @@
             [manager GET:[NSString stringWithFormat:@"%s%@", APIBaseURL, path] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 [self handleRequestSuccess:operation responseObject:responseObject result:result];
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Error: %ld", (long)operation.response.statusCode);
+                [self expectUserRequestError:operation error:error];
             }];
         }
         break;
@@ -51,7 +63,7 @@
             [manager POST:[NSString stringWithFormat:@"%s%@", APIBaseURL, path] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 [self handleRequestSuccess:operation responseObject:responseObject result:result];
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Error: %ld", (long)operation.response.statusCode);
+                [self expectUserRequestError:operation error:error];
             }];
         }
         break;
@@ -59,7 +71,7 @@
             [manager PUT:[NSString stringWithFormat:@"%s%@", APIBaseURL, path] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 [self handleRequestSuccess:operation responseObject:responseObject result:result];
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Error: %ld", (long)operation.response.statusCode);
+                [self expectUserRequestError:operation error:error];
             }];
         }
         break;
@@ -67,7 +79,7 @@
             [manager DELETE:[NSString stringWithFormat:@"%s%@", APIBaseURL, path] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 [self handleRequestSuccess:operation responseObject:responseObject result:result];
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Error: %ld", (long)operation.response.statusCode);
+                [self expectUserRequestError:operation error:error];
             }];
         }
         break;
